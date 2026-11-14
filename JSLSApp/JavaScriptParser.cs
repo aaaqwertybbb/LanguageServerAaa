@@ -752,11 +752,11 @@ public class JavaScriptParser
                 case 47: // '/'
                     if (_pos <= _doc.Count - 2)
                     {
-                        if (_doc.Chars[_pos + 1] == 47)
+                        if (_doc.Chars[_pos + 1] == 47 /* '/' */)
                         {
                             return Lex_SingleLineComment();
                         }
-                        else if (_doc.Chars[_pos + 1] == 42)
+                        else if (_doc.Chars[_pos + 1] == 42 /* '*' */)
                         {
                             return Lex_MultiLineComment();
                         }
@@ -1576,7 +1576,7 @@ public class JavaScriptParser
                     {
                         goto functionEnding;
                     }
-                case 92:
+                case 92: // '\'
                     length++;
                     _pos++;
                     _indexChar++;
@@ -1669,12 +1669,12 @@ public class JavaScriptParser
         {
             switch (_doc.Chars[_pos])
             {
-                case 42:
+                case 42: // '*'
                     length++;
                     _pos++;
                     _indexChar++;
                     if (_pos <= _doc.Count - 1 &&
-                        _doc.Chars[_pos] == 47)
+                        _doc.Chars[_pos] == 47 /* '/' */)
                     {
                         length++;
                         _pos++;
@@ -1682,7 +1682,7 @@ public class JavaScriptParser
                         goto functionEnding;
                     }
                     break;
-                case 13 /* \r */:
+                case 13: // '\r'
                     _seenLineEnd_flagForStringsAndComments = true;
                     length++;
                     _pos++;
