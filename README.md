@@ -1,10 +1,5 @@
 # JavaScript_LanguageServer
 
-Publish the JSLSApp project
+Run the `JSLSApp` project. It starts a websocket on the hardcoded `ws://127.0.0.1:8080`
 
-Modify the editor repo's main.cjs file:
-> languageServer = spawn(`C:\\Users\\hunte\\Repos\\New folder (7)\\LanguageServer2\\JSLSApp\\bin\\Release\\net10.0\\publish\\JSLSApp.exe`);
-
-change it to:
-
-> languageServer = spawn(YOUR_ABSOLUTE_PATH_STRING);
+When starting the EditorAaa app, it tries once to connect to the hardcoded websocket `ws://127.0.0.1:8080`
