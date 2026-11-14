@@ -664,6 +664,14 @@ public class JavaScriptParser
         _pendingVariableDeclarationNodeDictionary.Clear();
     }
 
+    /// <summary>
+    /// TODO: maybe change to one of these 3 options instead of hardcoding the byte with a single line comment containing the letter
+    /// - [ ] case (byte)')':
+    /// - [ ] case >= (byte)'a' and <= (byte)'z':
+    ///       case >= (byte)'A' and <= (byte)'Z':
+    ///       case (byte)'_':
+    /// - [ ] UTF-8 string literals (C# 11+): If you prefer avoiding casts altogether, a single-byte UTF-8 literal ("a"u8[0]) is technically a byte, though (byte)'a' is much more idiomatic and readable for lexer code.
+    /// </summary>
     public SyntaxToken Lex()
     {
         while (_pos < _doc.Count)
@@ -671,77 +679,77 @@ public class JavaScriptParser
             // TODO: various multicharacter tokens
             switch (_doc.Chars[_pos])
             {
-                case 97:
-                case 98:
-                case 99:
-                case 100:
-                case 101:
-                case 102:
-                case 103:
-                case 104:
-                case 105:
-                case 106:
-                case 107:
-                case 108:
-                case 109:
-                case 110:
-                case 111:
-                case 112:
-                case 113:
-                case 114:
-                case 115:
-                case 116:
-                case 117:
-                case 118:
-                case 119:
-                case 120:
-                case 121:
-                case 122:
-                case 65:
-                case 66:
-                case 67:
-                case 68:
-                case 69:
-                case 70:
-                case 71:
-                case 72:
-                case 73:
-                case 74:
-                case 75:
-                case 76:
-                case 77:
-                case 78:
-                case 79:
-                case 80:
-                case 81:
-                case 82:
-                case 83:
-                case 84:
-                case 85:
-                case 86:
-                case 87:
-                case 88:
-                case 89:
-                case 90:
-                case 95:
+                case 97: // 'a'
+                case 98: // 'b'
+                case 99: // 'c'
+                case 100: // 'd'
+                case 101: // 'e'
+                case 102: // 'f'
+                case 103: // 'g'
+                case 104: // 'h'
+                case 105: // 'i'
+                case 106: // 'j'
+                case 107: // 'k'
+                case 108: // 'l'
+                case 109: // 'm'
+                case 110: // 'n'
+                case 111: // 'o'
+                case 112: // 'p'
+                case 113: // 'q'
+                case 114: // 'r'
+                case 115: // 's'
+                case 116: // 't'
+                case 117: // 'u'
+                case 118: // 'v'
+                case 119: // 'w'
+                case 120: // 'x'
+                case 121: // 'y'
+                case 122: // 'z'
+                case 65: // 'A'
+                case 66: // 'B'
+                case 67: // 'C'
+                case 68: // 'D'
+                case 69: // 'E'
+                case 70: // 'F'
+                case 71: // 'G'
+                case 72: // 'H'
+                case 73: // 'I'
+                case 74: // 'J'
+                case 75: // 'K'
+                case 76: // 'L'
+                case 77: // 'M'
+                case 78: // 'N'
+                case 79: // 'O'
+                case 80: // 'P'
+                case 81: // 'Q'
+                case 82: // 'R'
+                case 83: // 'S'
+                case 84: // 'T'
+                case 85: // 'U'
+                case 86: // 'V'
+                case 87: // 'W'
+                case 88: // 'X'
+                case 89: // 'Y'
+                case 90: // 'Z'
+                case 95: // '_'
                     return Lex_IdentifierOrKeyword();
-                case 48:
-                case 49:
-                case 50:
-                case 51:
-                case 52:
-                case 53:
-                case 54:
-                case 55:
-                case 56:
-                case 57:
+                case 48: // '0'
+                case 49: // '1'
+                case 50: // '2'
+                case 51: // '3'
+                case 52: // '4'
+                case 53: // '5'
+                case 54: // '6'
+                case 55: // '7'
+                case 56: // '8'
+                case 57: // '9'
                     return Lex_Number();
-                case 32:
-                case 9:
-                case 13 /* \r */:
-                case 10 /* \n */:
+                case 32: // ' ' (space)
+                case 9: // '\t' (tab)
+                case 13: // '\r' (carriage return)
+                case 10: // '\n' (line feed / newline)
                     return Lex_Whitespace();
-                case 47:
+                case 47: // '/'
                     if (_pos <= _doc.Count - 2)
                     {
                         if (_doc.Chars[_pos + 1] == 47)
@@ -754,174 +762,174 @@ public class JavaScriptParser
                         }
                     }
                     break;
-                case 34:
+                case 34: // '"'
                     return Lex_String('\"');
-                case 39:
+                case 39: // '\''
                     return Lex_String('\'');
-                case 96:
+                case 96: // '`'
                     return Lex_String('`');
-                case 40:
+                case 40: // '('
                     {
                         _pos++;
                         var startPosition = new Position(_indexLine, _indexChar);
                         _indexChar++;
                         return new SyntaxToken(SyntaxKind.OpenParenthesisToken, startPosition, 1);
                     }
-                case 41:
+                case 41: // ')'
                     {
                         _pos++;
                         var startPosition = new Position(_indexLine, _indexChar);
                         _indexChar++;
                         return new SyntaxToken(SyntaxKind.CloseParenthesisToken, startPosition, 1);
                     }
-                case 123:
+                case 123: // '{'
                     {
                         _pos++;
                         var startPosition = new Position(_indexLine, _indexChar);
                         _indexChar++;
                         return new SyntaxToken(SyntaxKind.OpenBraceToken, startPosition, 1);
                     }
-                case 125:
+                case 125: // '}'
                     {
                         _pos++;
                         var startPosition = new Position(_indexLine, _indexChar);
                         _indexChar++;
                         return new SyntaxToken(SyntaxKind.CloseBraceToken, startPosition, 1);
                     }
-                case 91:
+                case 91: // '['
                     {
                         _pos++;
                         var startPosition = new Position(_indexLine, _indexChar);
                         _indexChar++;
                         return new SyntaxToken(SyntaxKind.OpenSquareToken, startPosition, 1);
                     }
-                case 93:
+                case 93: // ']'
                     {
                         _pos++;
                         var startPosition = new Position(_indexLine, _indexChar);
                         _indexChar++;
                         return new SyntaxToken(SyntaxKind.CloseSquareToken, startPosition, 1);
                     }
-                case 61:
+                case 61: // '='
                     {
                         _pos++;
                         var startPosition = new Position(_indexLine, _indexChar);
                         _indexChar++;
                         return new SyntaxToken(SyntaxKind.EqualsToken, startPosition, 1);
                     }
-                case 44:
+                case 44: // ','
                     {
                         _pos++;
                         var startPosition = new Position(_indexLine, _indexChar);
                         _indexChar++;
                         return new SyntaxToken(SyntaxKind.CommaToken, startPosition, 1);
                     }
-                case 59:
+                case 59: // ';'
                     {
                         _pos++;
                         var startPosition = new Position(_indexLine, _indexChar);
                         _indexChar++;
                         return new SyntaxToken(SyntaxKind.SemicolonToken, startPosition, 1);
                     }
-                case 60:
+                case 60: // '<'
                     {
                         _pos++;
                         var startPosition = new Position(_indexLine, _indexChar);
                         _indexChar++;
                         return new SyntaxToken(SyntaxKind.OpenAngleToken, startPosition, 1);
                     }
-                case 62:
+                case 62: // '>'
                     {
                         _pos++;
                         var startPosition = new Position(_indexLine, _indexChar);
                         _indexChar++;
                         return new SyntaxToken(SyntaxKind.CloseAngleToken, startPosition, 1);
                     }
-                case 38:
+                case 38: // '&'
                     {
                         _pos++;
                         var startPosition = new Position(_indexLine, _indexChar);
                         _indexChar++;
                         return new SyntaxToken(SyntaxKind.AmpersandToken, startPosition, 1);
                     }
-                case 46:
+                case 46: // '.'
                     {
                         _pos++;
                         var startPosition = new Position(_indexLine, _indexChar);
                         _indexChar++;
                         return new SyntaxToken(SyntaxKind.PeriodToken, startPosition, 1);
                     }
-                case 124:
+                case 124: // '|'
                     {
                         _pos++;
                         var startPosition = new Position(_indexLine, _indexChar);
                         _indexChar++;
                         return new SyntaxToken(SyntaxKind.PipeToken, startPosition, 1);
                     }
-                case 58:
+                case 58: // ':'
                     {
                         _pos++;
                         var startPosition = new Position(_indexLine, _indexChar);
                         _indexChar++;
                         return new SyntaxToken(SyntaxKind.ColonToken, startPosition, 1);
                     }
-                case 43:
+                case 43: // '+'
                     {
                         _pos++;
                         var startPosition = new Position(_indexLine, _indexChar);
                         _indexChar++;
                         return new SyntaxToken(SyntaxKind.PlusToken, startPosition, 1);
                     }
-                case 45:
+                case 45: // '-'
                     {
                         _pos++;
                         var startPosition = new Position(_indexLine, _indexChar);
                         _indexChar++;
                         return new SyntaxToken(SyntaxKind.MinusToken, startPosition, 1);
                     }
-                case 42:
+                case 42: // '*'
                     {
                         _pos++;
                         var startPosition = new Position(_indexLine, _indexChar);
                         _indexChar++;
                         return new SyntaxToken(SyntaxKind.StarToken, startPosition, 1);
                     }
-                case 94:
+                case 94: // '^'
                     {
                         _pos++;
                         var startPosition = new Position(_indexLine, _indexChar);
                         _indexChar++;
                         return new SyntaxToken(SyntaxKind.CaretToken, startPosition, 1);
                     }
-                case 37:
+                case 37: // '%'
                     {
                         _pos++;
                         var startPosition = new Position(_indexLine, _indexChar);
                         _indexChar++;
                         return new SyntaxToken(SyntaxKind.PercentToken, startPosition, 1);
                     }
-                case 36:
+                case 36: // '$'
                     {
                         _pos++;
                         var startPosition = new Position(_indexLine, _indexChar);
                         _indexChar++;
                         return new SyntaxToken(SyntaxKind.DollarSignToken, startPosition, 1);
                     }
-                case 35:
+                case 35: // '#'
                     {
                         _pos++;
                         var startPosition = new Position(_indexLine, _indexChar);
                         _indexChar++;
                         return new SyntaxToken(SyntaxKind.PoundToken, startPosition, 1);
                     }
-                case 64:
+                case 64: // '@'
                     {
                         _pos++;
                         var startPosition = new Position(_indexLine, _indexChar);
                         _indexChar++;
                         return new SyntaxToken(SyntaxKind.AtToken, startPosition, 1);
                     }
-                case 33:
+                case 33: // '!'
                     {
                         _pos++;
                         var startPosition = new Position(_indexLine, _indexChar);
